@@ -1,0 +1,17 @@
+variables:
+  IMAGE_NAME: kennedyuche/gcp-terraform-base:v1
+  IMAGE_TAG: v1
+
+terraform_deploy:
+  image: $IMAGE_NAME:$IMAGE_TAG
+  before_script:
+    - echo $GCLOUD_SERVICE_KEY > gcloud-service-key.json
+    - gcloud auth activate-service-account --key-file gcloud-service-key.json
+    - gcloud components install gke-gcloud-auth-plugin
+    - gcloud config set project $GCP_PROJECT_NAME
+    - gcloud config set container/cluster $GKE_CLUSTER_NAME
+    - gcloud config set compute/zone $GKE_ZONE
+    - gcloud container clusters get-credentials $GKE_CLUSTER_NAME --zone $GKE_ZONE --project $GCP_PROJECT_NAME
+  script:
+    - terraform init
+    - terraform apply --var-file=vars.tfvars -auto-approve
