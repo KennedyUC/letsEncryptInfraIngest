@@ -40,10 +40,35 @@ variable "istio_namespace" {
     description = "namespace to deploy istio resources"
 }
 
-variable "cluster_name" {}
+variable "acme_email" {
+    type        = string
+    default     = "kennedy@mavencode.com"
+    description = "acme user email"
+}
 
-variable "cluster_location" {}
+variable "app_namespace" {
+    type        = string
+    default     = "test-app"
+    description = "namespace to deploy the test app"
+}
 
-variable "gcp_project" {}
+variable "app_name" {
+    type        = string
+    default     = "test-app"
+    description = "name of the app for the test"
+}
 
-variable "credential_path" {}
+variable "cluster_name" {
+    type        = string
+    description = "GKE cluster for deployment"
+}
+
+variable "cluster_location" {
+    type        = string
+    description = "Region hosting the cluster"
+}
+
+variable "gcp_project_id" {
+    type        = string
+    description = "GCP project ID"
+}
